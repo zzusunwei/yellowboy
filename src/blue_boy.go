@@ -14,7 +14,7 @@ var (
 
 var TOPIC = make(map[string]string)
 
-func main() {
+func serialOpt() {
         //获取当前路径
     file, _ := os.Getwd()
     cfg, err := config.ReadDefault(file + *conFile)

@@ -21,8 +21,6 @@ type Todo struct {
 func main() {
 	t := time.Now()
 	log.Println("Begin to run: ", t.Format("2006-01-02:15:04:05"))
-	config := get_config()
-	log.Println("get config: ", config)
 	router := NewRouter() // this func is in router.go
 	log.Fatal(http.ListenAndServe(":8080", router))
 	log.Println("Shutdown at: ", t.Format("2006-01-02:15:04:05"))
