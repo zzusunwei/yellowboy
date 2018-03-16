@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/larspensjo/config"
+	"github.com/tarm/goserial"
 )
 
 var (
@@ -46,4 +47,5 @@ func serialPort() {
 		log.Fatal(err)
 	}
 	log.Printf("%q", buf[:n])
+
 }
