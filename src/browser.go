@@ -8,12 +8,12 @@ import (
 )
 
 var (
-	PORT = 8080
-    baseUrl = fmt.Sprintf("http://localhost:%v/admin", PORT)
+    baseUrl = fmt.Sprintf("http://localhost%v/index", PORT)
     driver  *agouti.WebDriver
     page    *agouti.Page
 )
-func open(url string) {
+func openBrowser(url string) {
+	log.Println("in method openBrowser",baseUrl)
     var err error
 	driver = agouti.ChromeDriver() // 设置 driver
     driver.Start()
@@ -21,10 +21,14 @@ func open(url string) {
 	if err != nil{
 		log.Println("get page error", err)
 	}
-	page.Navigate(baseUrl)
+	page.Navigate("www.baidu.com")
 	page.Reset()
 }
 
-func close(){
+func closeBrowser(){
+	driver.Stop() // 关闭 driver
+}
+
+func refeshBrowser(){
 	driver.Stop() // 关闭 driver
 }
