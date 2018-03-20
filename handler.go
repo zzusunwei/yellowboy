@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -12,6 +13,7 @@ func NewRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(false)
 	r.HandleFunc("/api/payPage", payPage).Methods("GET")
 	r.HandleFunc("/api/todos/{posters}", posterPage).Methods("GET")
+
 	r.NotFoundHandler = http.HandlerFunc(NotFound)
 	return r
 }
@@ -71,16 +73,46 @@ func JSONError(w http.ResponseWriter, r *http.Request, start time.Time, message 
 
 //to pay page
 func payPage(w http.ResponseWriter, r *http.Request) {
-	log.Println("in method pay page begin")
-	err := Open("www.baidu.com")
+	err := Open(LOCAL_URL+LOCAL_PORT+PAY_PAGE)
 	if err != nil {
 		log.Println("Open url error, the message is ", err)
 	}
-	log.Println("in method pay page end")
+}
+
+func videoPage(w http.ResponseWriter, r *http.Request) {
+	
+	err := Open(LOCAL_URL+LOCAL_PORT+VIDEO_PAGE)
+	if err != nil {
+		log.Println("Open url error, the message is ", err)
+	}
 }
 
 func posterPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("in method poster begin")
 	Open("")
 	log.Println("in method poster end")
+}
+func indexPage(w http.ResponseWriter, r *http.Request){
+	log.Println("in method index page")
+	pageName := mux.Vars(r)["pageName"];
+	var filePath string
+	if pageName == "" {
+		filePath = STATIC_PAGE_DIR + "index.html"
+	}
+	filePath = STATIC_PAGE_DIR + mux.Vars(r)["pageName"]
+    if exists := isExists(filePath); !exists {
+		log.Println("Page not found", filePath)
+		http.NotFound(w,r)
+		return
+	}
+	log.Println("To page", filePath)
+    http.ServeFile(w,r,filePath)
+}
+
+func isExists(path string) bool {
+    _, err := os.Stat(path)
+    if err == nil {
+        return true
+    }
+    return os.IsExist(err)
 }

@@ -9,7 +9,7 @@ import (
 
 var commands = map[string]string{
     "windows": "cmd /c start",
-    "darwin":  "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\"",
+    "darwin":  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "linux":   "xdg-open",
 }
 var fullScreenParam = "-kiosk"
