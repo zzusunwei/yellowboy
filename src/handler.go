@@ -72,12 +72,15 @@ func JSONError(w http.ResponseWriter, r *http.Request, start time.Time, message 
 //to pay page
 func payPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("in method pay page begin")
-	openBrowser("")
+	err := Open("www.baidu.com")
+	if err != nil {
+		log.Println("Open url error, the message is ", err)
+	}
 	log.Println("in method pay page end")
 }
 
 func posterPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("in method poster begin")
-	openBrowser("")
+	Open("")
 	log.Println("in method poster end")
 }

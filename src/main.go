@@ -16,12 +16,12 @@ type Todo struct {
 	Created   time.Time     `json:"createdon"`
 }
 var url = "http://localhost"
-var PORT = ":8080"
+var port = ":8080"
 
 func main() {
 	t := time.Now()
 	log.Println("Begin to run: ", t.Format("2006-01-02:15:04:05"))
 	router := NewRouter() // this func is in router.go
-	log.Fatal(http.ListenAndServe(PORT, router))
+	log.Fatal(http.ListenAndServe(port, router))
 	log.Println("Shutdown at: ", t.Format("2006-01-02:15:04:05"))
 }
