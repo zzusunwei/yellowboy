@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
-	"runtime"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -14,8 +13,8 @@ import (
 //NewRouter creates the router
 func NewRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(false)
-	r.HandleFunc("/hehe/payPage", payPage).Methods("GET")
-	r.HandleFunc("/hehe/todos/{posters}", posterPage).Methods("GET")
+	r.HandleFunc("/hehe/api/payPage", payPage).Methods("GET")
+	r.HandleFunc(apiPrefix+"todos/{posters}", posterPage).Methods("GET")
 
 	r.NotFoundHandler = http.HandlerFunc(NotFound)
 	return r
@@ -97,7 +96,7 @@ func posterPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func open(uri string) error {
-	log.Println("Open ", uri, "in", runtime.GOOS, FULL_SCREEN_PARAM)
-	cmd := exec.Command(config.Assets.Chrome, uri, FULL_SCREEN_PARAM)
+	log.Println(config.Assets.Chrome, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
+	cmd := exec.Command(config.Assets.Chrome, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
 	return cmd.Start()
 }
