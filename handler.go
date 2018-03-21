@@ -1,18 +1,21 @@
 package main
+
 import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os/exec"
+	"runtime"
 	"time"
-	"os"
 
 	"github.com/gorilla/mux"
 )
+
 //NewRouter creates the router
 func NewRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(false)
-	r.HandleFunc("/api/payPage", payPage).Methods("GET")
-	r.HandleFunc("/api/todos/{posters}", posterPage).Methods("GET")
+	r.HandleFunc("/hehe/payPage", payPage).Methods("GET")
+	r.HandleFunc("/hehe/todos/{posters}", posterPage).Methods("GET")
 
 	r.NotFoundHandler = http.HandlerFunc(NotFound)
 	return r
@@ -73,15 +76,15 @@ func JSONError(w http.ResponseWriter, r *http.Request, start time.Time, message 
 
 //to pay page
 func payPage(w http.ResponseWriter, r *http.Request) {
-	err := Open(LOCAL_URL+LOCAL_PORT+PAY_PAGE)
+	err := open(reloadViewRoot + config.Assets.Page.Pay)
 	if err != nil {
 		log.Println("Open url error, the message is ", err)
 	}
 }
 
 func videoPage(w http.ResponseWriter, r *http.Request) {
-	
-	err := Open(LOCAL_URL+LOCAL_PORT+VIDEO_PAGE)
+
+	err := open(reloadViewRoot + config.Assets.Page.Video)
 	if err != nil {
 		log.Println("Open url error, the message is ", err)
 	}
@@ -89,30 +92,12 @@ func videoPage(w http.ResponseWriter, r *http.Request) {
 
 func posterPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("in method poster begin")
-	Open("")
+	open("")
 	log.Println("in method poster end")
 }
-func indexPage(w http.ResponseWriter, r *http.Request){
-	log.Println("in method index page")
-	pageName := mux.Vars(r)["pageName"];
-	var filePath string
-	if pageName == "" {
-		filePath = STATIC_PAGE_DIR + "index.html"
-	}
-	filePath = STATIC_PAGE_DIR + mux.Vars(r)["pageName"]
-    if exists := isExists(filePath); !exists {
-		log.Println("Page not found", filePath)
-		http.NotFound(w,r)
-		return
-	}
-	log.Println("To page", filePath)
-    http.ServeFile(w,r,filePath)
-}
 
-func isExists(path string) bool {
-    _, err := os.Stat(path)
-    if err == nil {
-        return true
-    }
-    return os.IsExist(err)
+func open(uri string) error {
+	log.Println("Open ", uri, "in", runtime.GOOS, FULL_SCREEN_PARAM)
+	cmd := exec.Command(config.Assets.Chrome, uri, FULL_SCREEN_PARAM)
+	return cmd.Start()
 }

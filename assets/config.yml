@@ -1,5 +1,9 @@
-Desc: "test"
-Name:
-  firstName: michael
-  lastName: sun
-  middleName: w
+server:
+  port: 8080 
+  prefix: hehe
+assets:
+  chrome: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+  root: ./assets/
+  page:
+    pay: pay.html
+    video: video.html

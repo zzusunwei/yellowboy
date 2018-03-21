@@ -3,34 +3,28 @@ package main
 import (
 	"log"
 	"net/http"
-	"time"
-
-	"gopkg.in/mgo.v2/bson"
 )
+
 const (
-	STATIC_PAGE_DIR = "./assets/static/"
-	URL_PREFIX = "/assets/"
-    UPLOAD_DIR   = "./assets/videos/"
-	TEMPLATE_DIR = "./assets/posterPages/"
-	LOCAL_URL = "http://localhost"
-	LOCAL_PORT = ":8080"
-	PAY_PAGE = "pay.html"
-	VIDEO_PAGE = "video.html"
+	CONFIG_FILE_PATH  = "./assets/config.yml"
+	STATIC_PAGE_DIR   = "static/"
+	RELOAD_URL        = "http://localhost"
+	FULL_SCREEN_PARAM = "-kiosk"
 )
 
-//Todo struct to todo
-type Todo struct {
-	ID        bson.ObjectId `bson:"_id" json:"id"`
-	Name      string        `json:"name"`
-	Completed bool          `json:"completed"`
-	Created   time.Time     `json:"createdon"`
+var (
+	config         Config
+	reloadViewRoot string
+)
+
+func init() {
+	config = loadConfig(CONFIG_FILE_PATH)
+	reloadViewRoot = RELOAD_URL + ":" + config.Server.Port + "/" + config.Server.Prefix + "/"
 }
 
 func main() {
-	t := time.Now()
-	log.Println("Begin to run: ", t.Format("2006-01-02:15:04:05"))
-	http.Handle(URL_PREFIX, http.StripPrefix(URL_PREFIX,http.FileServer(http.Dir(STATIC_PAGE_DIR))))
+	log.Println("Yellow Boy Begin to run: open port:", config.Server.Port, ",request prifex:", config.Server.Prefix, ",static page in ", config.Assets.Root+STATIC_PAGE_DIR)
+	http.Handle(config.Server.Prefix, http.StripPrefix(config.Server.Prefix, http.FileServer(http.Dir(config.Assets.Root+STATIC_PAGE_DIR))))
 	router := NewRouter()
-	log.Fatal(http.ListenAndServe(LOCAL_PORT, router))
-	log.Println("Shutdown at: ", t.Format("2006-01-02:15:04:05"))
+	log.Fatal(http.ListenAndServe(":"+config.Server.Port, router))
 }
