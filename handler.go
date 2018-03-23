@@ -13,8 +13,8 @@ import (
 //NewRouter creates the router
 func NewRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(false)
+	r.Handle("/template/", http.StripPrefix("/template/", http.FileServer(http.Dir("./template"))))
 	r.HandleFunc("/hehe/api/payPage", payPage).Methods("GET")
-	r.HandleFunc(apiPrefix+"todos/{posters}", posterPage).Methods("GET")
 
 	r.NotFoundHandler = http.HandlerFunc(NotFound)
 	return r
@@ -22,6 +22,7 @@ func NewRouter() *mux.Router {
 
 //NotFound responses to routes not defined
 func NotFound(w http.ResponseWriter, r *http.Request) {
+	log.Println("not found")
 	log.Printf("%s\t%s\t%s\t%s\t%d\t%d\t%d",
 		r.RemoteAddr,
 		r.Method,

@@ -27,12 +27,15 @@ func init() {
 	config = loadConfig(CONFIG_FILE_PATH)
 	apiPrefix = config.Server.Prefix + "/api/"
 	viewPrefix = config.Server.Prefix + "/view/"
-	reloadViewRoot = RELOAD_URL + ":" + config.Server.Port + "/" + viewPrefix
+	reloadViewRoot = RELOAD_URL + ":" + config.Server.Port + viewPrefix
 }
 
 func main() {
-	log.Println("Yellow Boy Begin to run: platform:", runtime.GOOS, "open port:", config.Server.Port, ",request prifex:", viewPrefix, ",static page in ", config.Assets.Root+STATIC_PAGE_DIR)
-	http.Handle(viewPrefix, http.StripPrefix(viewPrefix, http.FileServer(http.Dir(config.Assets.Root+STATIC_PAGE_DIR))))
+	log.Println("Yellow Boy Begin to run: platform:", runtime.GOOS, ",open port:", config.Server.Port, ",request prifex:", config.Server.Prefix, ",static page in ", config.Assets.Root+STATIC_PAGE_DIR)
+
+	//staticViewHandle := http.StripPrefix("/view/", http.FileServer(http.Dir("./assets/static/")))
+	//http.Handle("/view/", staticViewHandle)
+	http.Handle("/template/", http.StripPrefix("/template/", http.FileServer(http.Dir("./template"))))
 	router := NewRouter()
 	log.Fatal(http.ListenAndServe(":"+config.Server.Port, router))
 }

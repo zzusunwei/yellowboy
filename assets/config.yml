@@ -1,6 +1,6 @@
 server:
   port: 8080 
-  prefix: hehe
+  prefix: /hehe
 assets:
   chrome: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
   root: ./assets/
