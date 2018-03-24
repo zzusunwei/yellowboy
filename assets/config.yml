@@ -2,7 +2,10 @@ server:
   port: 8080 
   prefix: /hehe
 assets:
-  chrome: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+  chrome: 
+    widnows: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+    linux:
+    mac: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
   root: ./assets/
   page:
     pay: pay.html

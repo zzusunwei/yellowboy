@@ -15,7 +15,11 @@ type Config struct {
 		Prefix string
 	}
 	Assets struct {
-		Chrome string
+		Chrome struct {
+			Windows string
+			Linux string
+			Mac string
+		}
 		Root   string
 		Page   struct {
 			Pay   string

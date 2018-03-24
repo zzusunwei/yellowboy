@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os/exec"
 	"time"
+	"runtime"
 
 	"github.com/gorilla/mux"
 )
@@ -97,7 +98,17 @@ func posterPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func open(uri string) error {
-	log.Println(config.Assets.Chrome, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
-	cmd := exec.Command(config.Assets.Chrome, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
+	var chromePath string
+	switch runtime.GOOS {
+		case "windows": 
+			chromePath = config.Assets.Chrome.Windows
+		case "darwin":  
+			chromePath = config.Assets.Chrome.Mac
+		case "linux":   
+			chromePath = config.Assets.Chrome.Linux
+		default:
+	}
+	log.Println(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
+	cmd := exec.Command(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
 	return cmd.Start()
 }
