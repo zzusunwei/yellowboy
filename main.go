@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"runtime"
 )
 
@@ -35,7 +34,7 @@ func main() {
 
 	//staticViewHandle := http.StripPrefix("/view/", http.FileServer(http.Dir("./assets/static/")))
 	//http.Handle("/view/", staticViewHandle)
-	http.Handle("/template/", http.StripPrefix("/template/", http.FileServer(http.Dir("./template"))))
-	router := NewRouter()
-	log.Fatal(http.ListenAndServe(":"+config.Server.Port, router))
+	//http.Handle("/template/", http.StripPrefix("/template/", http.FileServer(http.Dir("./template"))))
+	//handle := http.FileServer(http.Dir("./template"))
+	startLocalServer();
 }
