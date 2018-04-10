@@ -50,6 +50,6 @@ func open(uri string) error {
 		default:
 	}
 	log.Println(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
-	cmd := exec.Command(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
+	cmd := exec.Command(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, FULL_SCREEN_PARAM)
 	return cmd.Start()
 }
