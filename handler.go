@@ -49,6 +49,9 @@ func open(uri string) error {
 			chromePath = config.Assets.Chrome.Linux
 		default:
 	}
+	if chromePath == "" {
+		log.Fatal("get chrome path faild,check config or chrome exits or not")
+	}
 	log.Println(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, DISABLE_WEB_SECURITY, FULL_SCREEN_PARAM)
 	cmd := exec.Command(chromePath, uri, DISABLE_TRANSLATE, TEST_TYPE, FULL_SCREEN_PARAM)
 	return cmd.Start()

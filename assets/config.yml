@@ -4,7 +4,7 @@ server:
 assets:
   chrome: 
     widnows: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
-    linux:
+    linux: chromium-browser
     mac: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
   root: ./assets/
   page:
